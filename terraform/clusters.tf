@@ -101,8 +101,8 @@ variable "clusters" {
       node_classes = {
         controlplane = {
           count  = 1
-          cores  = 16
-          memory = 16384
+          cores  = 4
+          memory = 4096
           disks = [
             { datastore = "local-lvm", size = 100 }
           ]
@@ -149,7 +149,7 @@ variable "clusters" {
         }
         general = {
           count  = 2
-          cores  = 8
+          cores  = 4
           memory = 4096
           disks = [
             { datastore = "local-lvm", size = 20 }
@@ -204,7 +204,7 @@ variable "clusters" {
         }
         general = {
           count  = 5
-          cores  = 8
+          cores  = 4
           memory = 4096
           disks = [
             { datastore = "local-lvm", size = 20 }
