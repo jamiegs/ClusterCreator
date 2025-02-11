@@ -61,12 +61,6 @@ terraform {
 #   allow_insecure = true
 # }
 
-locals {
-  proxmox_host     = "lenny.snell.lab"
-  proxmox_username = "root@pam"
-  proxmox_api_token = "PVEAPIToken=exampletoken"
-}
-
 provider "proxmox" {
   endpoint  = "https://${local.proxmox_host}:8006/api2/json"
   username  = "github-runner@pam"
