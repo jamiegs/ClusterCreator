@@ -104,7 +104,7 @@ variable "clusters" {
           cores      = 16
           memory     = 16384
           disks      = [
-            { datastore = "local-btrfs", size = 100 }
+            { datastore = "local-lvm", size = 100 }
           ]
           start_ip   = 110
           labels = [
@@ -140,7 +140,7 @@ variable "clusters" {
           cores      = 4
           memory     = 4096
           disks      = [
-            { datastore = "local-btrfs", size = 20 }
+            { datastore = "local-lvm", size = 20 }
           ]
           start_ip   = 110
           labels = [
@@ -152,7 +152,7 @@ variable "clusters" {
           cores      = 8
           memory     = 4096
           disks      = [
-            { datastore = "local-btrfs", size = 20 }
+            { datastore = "local-lvm", size = 20 }
           ]
           start_ip   = 130
           labels = [
@@ -188,7 +188,7 @@ variable "clusters" {
           cores     = 4
           memory    = 4096
           disks     = [
-            { datastore = "local-btrfs", size = 20 }
+            { datastore = "local-lvm", size = 20 }
           ]
           start_ip = 110
           labels   = [
@@ -198,7 +198,7 @@ variable "clusters" {
         etcd = {
           count     = 3
           disks     = [
-            { datastore = "local-btrfs", size = 20 }
+            { datastore = "local-lvm", size = 20 }
           ]
           start_ip = 120
         }
@@ -207,7 +207,7 @@ variable "clusters" {
           cores     = 8
           memory    = 4096
           disks     = [
-            { datastore = "local-btrfs", size = 20 }
+            { datastore = "local-lvm", size = 20 }
           ]
           start_ip = 130
           labels   = [
@@ -219,7 +219,7 @@ variable "clusters" {
           pve_nodes  = [ "Acropolis", "Parthenon" ]
           cpu_type   = "host"
           disks      = [
-            { datastore = "local-btrfs", size = 20 }
+            { datastore = "local-lvm", size = 20 }
           ]
           start_ip   = 190
           labels = [

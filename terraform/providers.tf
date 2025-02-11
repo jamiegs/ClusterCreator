@@ -14,6 +14,11 @@ terraform {
     }
   }
 
+  backend "s3" {
+    bucket = "jamiegs-opentofu-state"
+    key    = "homelab-state/cluster-creator/terraform.tfstate"
+    region = "us-east-1"
+  }
 #   backend "s3" {
 #     bucket     = local.minio_bucket
 #     key        = "cluster_creator.tfstate"

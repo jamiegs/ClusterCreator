@@ -366,7 +366,7 @@ Define custom worker classes in `clusters.tf` under the `node_classes` section o
           pve_nodes  = [ "Acropolis", "Parthenon" ]
           cpu_type   = "host"
           disks      = [
-            { datastore = "local-btrfs", size = 20 }
+            { datastore = "local-lvm", size = 20 }
           ]
           start_ip   = 190
           labels = [
