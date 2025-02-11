@@ -131,4 +131,3 @@
       environment:
         KUBECONFIG: "{{ lookup('env', 'HOME') }}/.kube/{{ cluster_config.kubeconfig_file_name }}"
       when: config_check.rc != 0
-

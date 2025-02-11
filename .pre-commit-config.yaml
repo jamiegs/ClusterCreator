@@ -1,0 +1,43 @@
+---
+fail_fast: true
+minimum_pre_commit_version: "2.17.0"
+default_stages: [pre-push]
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-case-conflict
+      - id: check-executables-have-shebangs
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: check-vcs-permalinks
+      - id: check-xml
+      - id: check-yaml
+      # end-of-file-fixer ensures files are either empty, or end with one new line.
+      # See: https://pre-commit.com/hooks.html.
+      # This helps to prevent unexpected behaviour in various scenarios.
+      # Our create release action,
+      # (https://github.com/hudl/terraform-aws-documentdb/blob/17866c14596eac461f390a5acacd4a23d123ccc6/.github/workflows/release.yaml#L21),
+      # adds three new lines to the end of our CHANGELOG.md each time a release is created.
+      # To prevent this clashing with our pre-commit check, we add an exclude below.
+      - id: end-of-file-fixer
+        exclude: CHANGELOG.md
+
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    # Versions above 1.62.0 have issues on MacOS
+    # - They require coreutils to be installed - https://github.com/antonbabenko/pre-commit-terraform/issues/349
+    # - They require Bash to be updated - https://github.com/antonbabenko/pre-commit-terraform/issues/337
+    # Installing CoreUtils is fine, updating bash, maybe less so.
+    # Therefore we're going to wait to upgrade past this version until the
+    # project has worked through these issues
+    rev: v1.97.0
+    hooks:
+      - id: terraform_fmt
+      - id: terraform_validate
+      - id: terraform_tflint
+        args: ["--arg=--config=__GIT_WORKING_DIR__/.tflint.hcl"]
+      - id: terraform_docs
+        exclude: tests
