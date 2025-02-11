@@ -1,6 +1,6 @@
 locals {
-  proxmox_host   = "burns-ip.jamiesnell.com"
-  proxmox_node   = "pxe-burns"
+  proxmox_host   = "lenny-ip.jamiesnell.com"
+  proxmox_node   = "pxe-lenny"
   template_vm_id = 9001
   #     unifi_api_url  = "https://10.0.0.1/"
   #     minio_endpoint = "https://s3.christensencloud.us"
