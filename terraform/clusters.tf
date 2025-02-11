@@ -51,19 +51,19 @@ variable "clusters" {
       })
     })
     node_classes : map(object({
-      count : number                                                            # Required. Number of VMs to create for this node class.
+      count : number                                                             # Required. Number of VMs to create for this node class.
       pve_nodes : optional(list(string), ["pxe-lenny", "pxe-burns", "pxe-bart"]) # Optional. Nodes that this class is allowed to run on. They will be cycled through and will repeat if count > length(pve_nodes).
-      machine : optional(string, "q35")                                         # Optional. Default to "q35". Use i400fx for partial gpu pass-through.
-      cpu_type : optional(string, "x86-64-v3")                                  # Optional. Default to x86-64-v3. 'host' gives the best performance and is needed for full gpu pass-through, but it can't live migrate. https://www.yinfor.com/2023/06/how-i-choose-vm-cpu-type-in-proxmox-ve.html
-      cores : optional(number, 2)                                               # Optional. Number of cores to use.
-      sockets : optional(number, 1)                                             # Optional. Number of sockets to use or emulate.
-      memory : optional(number, 2048)                                           # Optional. Non-ballooning memory in MB.
-      disks : list(object({                                                     # Required. First disk will be used for OS. Others can be added for longhorn, ceph, etc.
-        size : number                                                           # Required. Size of the disk in GB.
-        datastore : string                                                      # Required. The Proxmox datastore to use for this disk.
-        backup : optional(bool, true)                                           # Optional. Backup this disk when Proxmox performs a vm backup or snapshot.
-        cache_mode : optional(string, "none")                                   # Optional. See https://pve.proxmox.com/wiki/Performance_Tweaks#Small_Overview
-        aio_mode : optional(string, "io_uring")                                 # Optional. io_uring, native, or threads. Native can only be used with raw block devices. Threads is legacy.
+      machine : optional(string, "q35")                                          # Optional. Default to "q35". Use i400fx for partial gpu pass-through.
+      cpu_type : optional(string, "x86-64-v3")                                   # Optional. Default to x86-64-v3. 'host' gives the best performance and is needed for full gpu pass-through, but it can't live migrate. https://www.yinfor.com/2023/06/how-i-choose-vm-cpu-type-in-proxmox-ve.html
+      cores : optional(number, 2)                                                # Optional. Number of cores to use.
+      sockets : optional(number, 1)                                              # Optional. Number of sockets to use or emulate.
+      memory : optional(number, 2048)                                            # Optional. Non-ballooning memory in MB.
+      disks : list(object({                                                      # Required. First disk will be used for OS. Others can be added for longhorn, ceph, etc.
+        size : number                                                            # Required. Size of the disk in GB.
+        datastore : string                                                       # Required. The Proxmox datastore to use for this disk.
+        backup : optional(bool, true)                                            # Optional. Backup this disk when Proxmox performs a vm backup or snapshot.
+        cache_mode : optional(string, "none")                                    # Optional. See https://pve.proxmox.com/wiki/Performance_Tweaks#Small_Overview
+        aio_mode : optional(string, "io_uring")                                  # Optional. io_uring, native, or threads. Native can only be used with raw block devices. Threads is legacy.
       }))
       start_ip : number                   # Required. Last octet of the ip address for the first node of the class.
       labels : optional(list(string), []) # Optional. Kubernetes-level labels to control workload scheduling.
