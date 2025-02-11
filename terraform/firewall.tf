@@ -2,21 +2,21 @@ locals {
   ipv4_interface_list = join(",", flatten([
     for node in proxmox_virtual_environment_vm.node : [
       for ip in flatten([node.ipv4_addresses]) : ip
-      if ip != "127.0.0.1"                         # Exclude loopback address
+      if ip != "127.0.0.1" # Exclude loopback address
     ]
   ]))
 
   ipv6_interface_list = join(",", flatten([
     for node in proxmox_virtual_environment_vm.node : [
       for ip in flatten([node.ipv6_addresses]) : ip
-      if ip != "::1" && !can(regex("^fe80:", ip))  # Exclude loopback and local-link addresses
+      if ip != "::1" && !can(regex("^fe80:", ip)) # Exclude loopback and local-link addresses
     ]
   ]))
 }
 
 resource "proxmox_virtual_environment_firewall_options" "node" {
-  depends_on = [ proxmox_virtual_environment_vm.node ]
-  for_each = { for node in local.nodes : "${node.cluster_name}-${node.node_class}-${node.index}" => node }
+  depends_on = [proxmox_virtual_environment_vm.node]
+  for_each   = { for node in local.nodes : "${node.cluster_name}-${node.node_class}-${node.index}" => node }
 
   node_name = local.proxmox_node
   vm_id     = each.value.vm_id
@@ -307,14 +307,14 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "k8s_api"
   comment = "K8s API for ${local.cluster_config.cluster_name} cluster"
 
   rule {
-      type    = "in"
-      action  = "ACCEPT"
-      comment = "Allow K8s API from Management IP or Range IPV4"
-      source  = "+${proxmox_virtual_environment_firewall_ipset.management_ipv4[0].name}"
-      dest    = "+${proxmox_virtual_environment_firewall_ipset.controlplane_nodes_ipv4[0].name}"
-      dport   = "6443"
-      proto   = "tcp"
-      log     = "info"
+    type    = "in"
+    action  = "ACCEPT"
+    comment = "Allow K8s API from Management IP or Range IPV4"
+    source  = "+${proxmox_virtual_environment_firewall_ipset.management_ipv4[0].name}"
+    dest    = "+${proxmox_virtual_environment_firewall_ipset.controlplane_nodes_ipv4[0].name}"
+    dport   = "6443"
+    proto   = "tcp"
+    log     = "info"
   }
   dynamic "rule" {
     for_each = local.cluster_config.networking.ipv6.enabled ? [1] : []
@@ -330,26 +330,26 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "k8s_api"
     }
   }
   rule {
-      type    = "in"
-      action  = "ACCEPT"
-      comment = "Allow K8s API from Management IP or Range IPv4 VIP"
-      source  = "+${proxmox_virtual_environment_firewall_ipset.management_ipv4[0].name}"
-      dest    = "+${proxmox_virtual_environment_firewall_ipset.kube_vip[0].name}"
-      dport   = "6443"
-      proto   = "tcp"
-      log     = "info"
+    type    = "in"
+    action  = "ACCEPT"
+    comment = "Allow K8s API from Management IP or Range IPv4 VIP"
+    source  = "+${proxmox_virtual_environment_firewall_ipset.management_ipv4[0].name}"
+    dest    = "+${proxmox_virtual_environment_firewall_ipset.kube_vip[0].name}"
+    dport   = "6443"
+    proto   = "tcp"
+    log     = "info"
   }
   dynamic "rule" {
     for_each = local.cluster_config.networking.ipv6.enabled ? [1] : []
     content {
-      type     = "in"
-      action   = "ACCEPT"
-      comment  = "Allow K8s API from Management IP or Range IPv6 VIP"
-      source   = "+${proxmox_virtual_environment_firewall_ipset.management_ipv6[0].name}"
-      dest     = "+${proxmox_virtual_environment_firewall_ipset.kube_vip[0].name}"
-      dport    = "6443"
-      proto    = "tcp"
-      log      = "info"
+      type    = "in"
+      action  = "ACCEPT"
+      comment = "Allow K8s API from Management IP or Range IPv6 VIP"
+      source  = "+${proxmox_virtual_environment_firewall_ipset.management_ipv6[0].name}"
+      dest    = "+${proxmox_virtual_environment_firewall_ipset.kube_vip[0].name}"
+      dport   = "6443"
+      proto   = "tcp"
+      log     = "info"
     }
   }
   rule {
@@ -485,7 +485,7 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "ping" {
     type    = "in"
     action  = "ACCEPT"
     comment = "Allow Ping from Management IP or Range VIP"
-    source  = local.cluster_config.networking.kube_vip.use_ipv6 ? "+${proxmox_virtual_environment_firewall_ipset.management_ipv6[0].name}":  "+${proxmox_virtual_environment_firewall_ipset.management_ipv4[0].name}"
+    source  = local.cluster_config.networking.kube_vip.use_ipv6 ? "+${proxmox_virtual_environment_firewall_ipset.management_ipv6[0].name}" : "+${proxmox_virtual_environment_firewall_ipset.management_ipv4[0].name}"
     dest    = "+${proxmox_virtual_environment_firewall_ipset.kube_vip[0].name}"
     macro   = "Ping"
     log     = "info"
@@ -517,7 +517,7 @@ resource "proxmox_virtual_environment_cluster_firewall_security_group" "ping" {
     type    = "in"
     action  = "ACCEPT"
     comment = "Allow Ping from nodes to VIP"
-    source  = local.cluster_config.networking.kube_vip.use_ipv6 ? "+${proxmox_virtual_environment_firewall_ipset.all_nodes_ipv6[0].name}":  "+${proxmox_virtual_environment_firewall_ipset.all_nodes_ipv4[0].name}"
+    source  = local.cluster_config.networking.kube_vip.use_ipv6 ? "+${proxmox_virtual_environment_firewall_ipset.all_nodes_ipv6[0].name}" : "+${proxmox_virtual_environment_firewall_ipset.all_nodes_ipv4[0].name}"
     dest    = "+${proxmox_virtual_environment_firewall_ipset.kube_vip[0].name}"
     macro   = "Ping"
     log     = "info"
