@@ -65,7 +65,7 @@ provider "proxmox" {
   endpoint  = "https://${local.proxmox_host}:8006/api2/json"
   username  = "github-runner@pam"
   password  = var.PROXMOX_GITHUB_RUNNER_PASSWORD
-  api_token = var.PROXMOX_TERRAFORM_API_TOKEN
+  api_token = local.proxmox_api_token
 
   ssh {
     username = local.proxmox_username
