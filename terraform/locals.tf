@@ -43,13 +43,13 @@ locals {
     ]
   ])
 
-  cluster_config = var.clusters[terraform.workspace]
+  cluster_config = var.clusters[local.cluster_to_build]
 
   management_cidrs_ipv4_list = split(",", local.cluster_config.networking.ipv4.management_cidrs)
   management_cidrs_ipv6_list = split(",", local.cluster_config.networking.ipv6.management_cidrs)
 
   # Now filter all_nodes to only include those from the specified cluster
-  nodes = [for node in local.all_nodes : node if node.cluster_name == terraform.workspace]
+  nodes = [for node in local.all_nodes : node if node.cluster_name == local.cluster_to_build]
 }
 
 # Local file resource to write the clusters config to a JSON file

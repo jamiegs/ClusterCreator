@@ -4,7 +4,7 @@
 #   for_each = {
 #     for key, value in var.clusters : key => value
 #     # only create a vlan if it's both wanted and the VMs are assigned to it
-#     if key == terraform.workspace && value.networking.use_unifi == true && value.networking.assign_vlan == true
+#     if key == local.cluster_to_builde && value.networking.use_unifi == true && value.networking.assign_vlan == true
 #   }
 # 
 #   vlan_id = each.value.networking.vlan_id == null ? "${each.value.cluster_id}00" : each.value.networking.vlan_id
