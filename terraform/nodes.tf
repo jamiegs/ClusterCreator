@@ -12,6 +12,15 @@ resource "proxmox_virtual_environment_vm" "node" {
     each.value.cluster_name,
     each.value.node_class,
   ]
+
+  timeout_create      = 3000
+  timeout_clone       = 3000
+  timeout_reboot      = 3000
+  timeout_migrate     = 3000
+  timeout_shutdown_vm = 3000
+  timeout_start_vm    = 3000
+  timeout_stop_vm     = 3000
+
   # Dynamically set node_name based on cycling through the pve_nodes array
   node_name = each.value.pve_nodes[each.value.index % length(each.value.pve_nodes)]
   clone {
