@@ -81,7 +81,7 @@ resource "proxmox_virtual_environment_vm" "node" {
     type    = "virtio"
   }
   vga {
-    type   = "std"
+    type = "std"
   }
   initialization {
     interface = "ide2"
