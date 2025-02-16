@@ -101,7 +101,7 @@ variable "clusters" {
       node_classes = {
         controlplane = {
           count  = 1
-          cores  = 4
+          cores  = 2
           memory = 4096
           disks = [
             { datastore = "local-lvm", size = 100 }
@@ -137,7 +137,7 @@ variable "clusters" {
       node_classes = {
         controlplane = {
           count  = 1
-          cores  = 4
+          cores  = 2
           memory = 4096
           disks = [
             { datastore = "local-lvm", size = 20 }
@@ -149,7 +149,7 @@ variable "clusters" {
         }
         general = {
           count  = 2
-          cores  = 4
+          cores  = 1
           memory = 4096
           disks = [
             { datastore = "local-lvm", size = 20 }
@@ -184,8 +184,8 @@ variable "clusters" {
       }
       node_classes = {
         controlplane = {
-          count  = 3
-          cores  = 4
+          count  = 1
+          cores  = 2
           memory = 4096
           disks = [
             { datastore = "local-lvm", size = 20 }
@@ -203,8 +203,8 @@ variable "clusters" {
           start_ip = 120
         }
         general = {
-          count  = 5
-          cores  = 4
+          count  = 3
+          cores  = 1
           memory = 4096
           disks = [
             { datastore = "local-lvm", size = 20 }
@@ -215,7 +215,7 @@ variable "clusters" {
           ]
         }
         gpu = {
-          count     = 2
+          count     = 0
           pve_nodes = ["Acropolis", "Parthenon"]
           cpu_type  = "host"
           disks = [
